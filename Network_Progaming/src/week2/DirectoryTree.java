@@ -21,44 +21,45 @@ public class DirectoryTree {
 			dirTreeHelper(dir, level);
 	}
 
-	private static void dirTreeHelper(File dir, int level) {
-		printDir(dir, level);
+	private static long dirTreeHelper(File dir, int level) {
+		long total = 0;
+
 		File[] list = dir.listFiles();
 		for (File f : list) {
 			if (f.isDirectory()) {
-				dirTreeHelper(f, level + 1);
+				total += dirTreeHelper(f, level + 1);
 			}
 		}
 		for (File f : list) {
 			if (f.isFile()) {
-				printFile(f, level + 1);
+				total += printFile(f, level + 1);
 			}
 		}
-
+		printDir(dir, level, total);
+		return total;
 	}
 
-	private static void printDir(File dir, int level) {
-		StringBuilder sb = new StringBuilder();
-		if (level == 0) {
-			sb.append("+-");
-		} else {
-			sb.append("   ");
-			for (int i = 1; i < level; i++) {
-				sb.append("| ");
-			}
-			sb.append("+-");
-		}
+	private static void printDir(File dir, int level, long cap) {
+		StringBuilder sb = getIndext(level);
 		sb.append(dir.getName().toUpperCase());
+		sb.append("|");
+		sb.append(cap);
 		System.out.println(sb.toString());
 	}
 
-	private static void printFile(File dir, int level) {
+	private static long printFile(File dir, int level) {
 //		Sting buffer sẽ chậm hơn String builder, chỉ sử dụng trong quá trình nhiều luồng
 
+		StringBuilder sb = getIndext(level);
+		sb.append(dir.getName().toLowerCase());
+		System.out.println(sb.toString());
+		return dir.length();
+	}
+
+	public static StringBuilder getIndext(int level) {
 		StringBuilder sb = new StringBuilder();
 		if (level == 0) {
 			sb.append("+-");
-			sb.append(dir.getName().toLowerCase());
 		} else {
 			sb.append(" ");
 			for (int i = 1; i < level; i++) {
@@ -66,8 +67,7 @@ public class DirectoryTree {
 			}
 			sb.append("+-");
 		}
-		sb.append(dir.getName().toLowerCase());
-		System.out.println(sb.toString());
+		return sb;
 	}
 
 	public static void main(String[] args) {
