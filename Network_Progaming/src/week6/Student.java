@@ -1,11 +1,11 @@
 package week6;
 
 public class Student {
-	private int stt;
-	private int id;
-	private String name;
-	private int year;
-	private double grade;
+	int stt;
+	int id;
+	String name;
+	int year;
+	double grade;
 
 	public Student(int stt, int id, String name, int year, double grade) {
 		super();
@@ -24,13 +24,28 @@ public class Student {
 
 	}
 
+	public Student(int id, String name, int year, double grade) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.year = year;
+		this.grade = grade;
+
+	}
+
+	public Student(int id, double grade) {
+		super();
+		this.id = id;
+		this.grade = grade;
+	}
+
 	public void setGrade(double grade) {
 		this.grade = grade;
 	}
 
 	@Override
 	public String toString() {
-		return "Student [stt=" + stt + ", id=" + id + ", name=" + name + ", year=" + year + ", grade=" + grade + "]";
+		return "Student [ id=" + id + ", name=" + name + ", year=" + year + ", grade=" + grade + "\n" + "]";
 	}
 
 }
