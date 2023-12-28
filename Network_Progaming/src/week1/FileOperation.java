@@ -5,35 +5,44 @@ import java.io.IOException;
 
 public class FileOperation {
 
-  //	static public boolean remove(String path) {
-//		File file = new File(path);
-//		if (!file.exists()) return true;
-//
-//		File[] list = file.listFiles();
-//		if (list!=null) for(File f:list) remove(f.getAbsolutePath());
-//
-//		return file.delete();
-//	}
-  public static boolean remove(String path) throws IOException {
-    File file = new File(path);
-    if (!file.exists()) {
-      System.out.println("File " + file.getName() + "có không tồn tại trong thư mục");
+  public static boolean remove(String path) {
+    File file = new File(path);// Khai báo file
+
+    if (!file.exists()) {// Kiểm tra file có tồn tại hay không
+      System.out.println("File hoặc thư mục " + file.getName() + " không tồn tại trong thư mục");
       return false;
     } else {
-      File[] list = file.listFiles();
-      if (list != null) {
-        for (File f : list) {
-          remove(f.getAbsolutePath());
-          System.out.println("File " + file.getName() + " đã được xóa trong thư mục");
+      if (file.isFile()) {// Nếu là File
+        if (file.delete()) {
+          System.out.println("File " + file.getName() + " đã được xóa khỏi thư mục");
+          return true;
+        } else {
+          System.out.println("Không thể xóa file " + file.getName());
+          return false;
         }
+      } else if (file.isDirectory()) {// Nếu là Thư mục
+        File[] list = file.listFiles();
+        if (list != null) {
+          for (File f : list) {
+            remove(f.getAbsolutePath());
+          }
+        }
+        if (file.delete()) {
+          System.out.println("Thư mục " + file.getName() + " và nội dung của nó đã được xóa");
+          return true;
+        } else {
+          System.out.println("Không thể xóa thư mục " + file.getName());
+          return false;
+        }
+      } else {
+        System.out.println(file.getName() + " không phải là file hoặc thư mục");
+        return false;
       }
     }
-    return file.delete();
-
   }
 
-  public static void main(String[] args) throws IOException {
-    String path = "D:\\Trash\\Temp\\Test1";
+  public static void main(String[] args) {
+    String path = "D:\\Trash\\Temp\\Test";
     FileOperation.remove(path);
 
   }
