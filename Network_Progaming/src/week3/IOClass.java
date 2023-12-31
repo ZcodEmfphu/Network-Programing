@@ -59,7 +59,7 @@ public class IOClass {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String path = "D:\\Trash\\Test\\abc.doc";
+		String path = "D:\\Trash\\Temp\\Test\\thu.docx";
 		int size = 1500000;
 		long bt = System.currentTimeMillis();
 		split(path, size);
