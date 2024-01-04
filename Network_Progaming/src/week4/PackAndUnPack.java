@@ -80,14 +80,15 @@ public class PackAndUnPack {
 		System.out.println("Unpack succses !");
 	}
 
+
 	public static void main(String[] args) throws IOException {
-		String folder = "D:\\Trash\\Test";
-		String packedFile = "D:\\Trash\\Test.pack";
+		String folder = "D:\\Trash\\Temp\\Test";
+		String packedFile = "D:\\Trash\\Temp\\Test.pack";
 
 		pack(folder, packedFile);
 
-		String extractFile = "D:\\Trash\\Test\\Lesson1.pdf";
-		String dest = "D:\\Trash\\Test\\Lesson1_copy.pdf";
+		String extractFile = "a.pdf";
+		String dest = "D:\\Trash\\Temp\\Test\\a_copy.pdf";
 
 //		unpack(packedFile, extractFile, dest);
 	}
