@@ -5,73 +5,67 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class Student {
-	private int id;
-	private String name;
-	private int bYear;
-	private double grade;
 
-	public Student(int id, String name, int bYear, double grade) {
-		this.id = id;
-		this.name = name;
-		this.bYear = bYear;
-		this.grade = grade;
-	}
+  private int id;
+  private String name;
+  private int birthYear;
+  private double grade;
 
-	public Student() {
-		// TODO Auto-generated constructor stub
-	}
+  public Student() {
+  }
 
-	// write name with lenx2 byte
-	public void writeFixedLengthName(DataOutput dos, int len) throws IOException {
-		char c;
-		for (int i = 0; i < len; i++) {
-			c = (i < name.length()) ? name.charAt(i) : 0;
-			dos.writeChar(c);
-		}
+  public Student(int id, String name, int birthYear, double grade) {
+    this.id = id;
+    this.name = name;
+    this.birthYear = birthYear;
+    this.grade = grade;
+  }
 
-	}
+  // Ghi vào chuỗi tên với độ dài cho trước vào DataOutput
+  public void writeLengthName(DataOutput dos, int length) throws IOException {
+    char c;
+    for (int i = 0; i < length; i++) { // Duyệt qua từng phần tử
+      if (i < name.length()) { // Nếu có thì
+        c = name.charAt(i);// Lấy chuỗi name
+      } else {
+        c = 0; //thì gán là 0
+      }
+      dos.writeChar(c); // ghi vào DataOutput
+    }
+  }
 
-	private String readFixedLengthName(DataInput dis, int len) throws IOException {
-		String res = "";
-		char c;
-		for (int i = 0; i < len; i++) {
-			c = dis.readChar();
-			if (c != 0)
-				res += c;
+  // Đọc từ DataInput 1 chuỗi cho trước
+  public String readLengthName(DataInput dis, int length) throws IOException {
+    String res = " ";
+    char c;
+    for (int i = 0; i < length; i++) {
+      // Đọc một kí tự từ DataInput
+      c = dis.readChar();
+      if (c != 0) { // Nếu kí tự khác 0
+        res += c;// thì thêm vào
+      }
+    }
+    return res;// Trả về chuỗi kết quả
+  }
 
-		}
-		return res;
-	}
 
-	public void writeStudentL(DataOutput dos, int len) throws IOException {
-		dos.writeInt(id);
-		writeFixedLengthName(dos, len);
-		dos.writeInt(bYear);
-		dos.writeDouble(grade);
-	}
+  // Ghi dữ liệu thông tin học sinh vào DataOutput
+  public void writeStudent(DataOutput dos, int length) throws IOException {
+    dos.writeInt(id);// Ghi Id vào DataOutput
+    writeLengthName(dos, length); // Ghi tên vào DataOutput
+    dos.writeInt(birthYear); // Ghi năm sinh vào DataOutput
+    dos.writeDouble(grade); // Ghi điểm vào DataOutput
+  }
 
-	public void readStudent(DataInput dis, int len) throws IOException {
-		id = dis.readInt();
-		name = readFixedLengthName(dis, len);
-		bYear = dis.readInt();
-		grade = dis.readDouble();
-	}
+  // Đọc thông tin học sinh từ DataInput
+  public void readStudent(DataInput dis, int length) throws IOException {
+    id = dis.readInt(); // Đọc id học sinh từ DataInput
+    name = readLengthName(dis, length); // Đọc độ dài tên học sinh từ DataInput
+    birthYear = dis.readInt();// Đọc năm sinh từ DataInput
+    grade = dis.readDouble();// Đọc điểm của học sinh từ DataInput
+  }
 
-	@Override
-	public String toString() {
-		return "id:" + id + ", name:" + name + ", bYear:" + bYear + ", grade:" + grade;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public static void main(String[] args) {
-		// Example usage for Student class
-		Student student = new Student(1, "John", 2000, 90.5);
-
-		System.out.println("Original Student:");
-		System.out.println(student);
-
-	}
+  public String toString() {
+    return "Id:" + id + ", Name:" + name + ", bYear:" + birthYear + ", Grade:" + grade;
+  }
 }
